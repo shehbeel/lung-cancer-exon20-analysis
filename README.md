@@ -10,17 +10,17 @@
   </tr>
   <tr>
     <td>GSE181673</td>
-    <td>HER2 exon 20 insertion w/drug treatments, cell lines and PDXs</td>
+    <td>HER2 exon 20 insertion w/drug treatments, cell lines and PDXs (Human)</td>
     <td>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE188446</td> 
   </tr>
   <tr>
     <td>GSE188446</td>
-    <td>HER2 exon 20 insertion drug treatment</td>
+    <td>HER2 exon 20 insertion drug treatment (Mouse)</td>
     <td>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE188446</td> 
   </tr>
    <tr>
     <td>GSE23768</td>
-    <td>large dataset containing lung cancer patient sample RNA-Seq data</td>
+    <td>large dataset containing lung cancer patient sample RNA-Seq data (Human)</td>
     <td>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE23768</td> 
   </tr>
 </table>
