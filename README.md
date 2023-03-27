@@ -15,12 +15,12 @@
   </tr>
   <tr>
     <td>GSE188446</td>
-    <td>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE188446</td> 
     <td>HER2 exon 20 insertion drug treatment</td>
+    <td>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE188446</td> 
   </tr>
    <tr>
     <td>GSE23768</td>
-    <td>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE23768</td> 
     <td>large dataset containing lung cancer patient sample RNA-Seq data</td>
+    <td>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE23768</td> 
   </tr>
 </table>
