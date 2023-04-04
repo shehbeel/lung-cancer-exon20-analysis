@@ -1,0 +1,15 @@
+Sample	Treatment
+SH26-1095-Vehicle	Vehicle
+SH26-1125-TDM1	TDM1
+SH26-1127-TDM1	TDM1
+SH26-1182-Combo	Combo
+SH26-1196-TDM1	TDM1
+SH26-1226-Combo	Combo
+SH26-1239-Combo	Combo
+SH26-1259-Resist	Resistance
+SH26-1261-TAK	TAK
+SH26-1270-TAK	TAK
+SH26-1274-TAK	TAK
+SH26-1275-Resist	Resistance
+SH26-1291-Resist	Resistance
+SH26-1313-Vehicle	Vehicle
