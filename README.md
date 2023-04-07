@@ -11,7 +11,7 @@
   <tr>
     <td>GSE181673</td>
     <td>HER2 exon 20 insertion w/drug treatments, cell lines and PDXs (Human)</td>
-    <td>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE188446</td> 
+    <td>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE181673</td> 
   </tr>
   <tr>
     <td>GSE188446</td>
