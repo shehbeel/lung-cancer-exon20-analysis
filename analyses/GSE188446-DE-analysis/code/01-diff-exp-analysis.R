@@ -1,4 +1,4 @@
-# Script to differential expression analysis of HER20
+# Script for differential expression analysis of HER20 (GSE188446)
 # Author: Shehbeel Arif
 
 # Load libraries
@@ -38,10 +38,10 @@ expression_df <- readr::read_delim(data_file)
 #######
 ## PREPROCESS THE DATA
 expression_df <- expression_df %>%
-  tibble::column_to_rownames("#GENE")
+  tibble::column_to_rownames("GENE")
 
 # Check if the expression and metadata are in the same order
-all.equal(colnames(expression_df), metadata$Sample)
+all.equal(colnames(expression_df), metadata$sample_id)
 
 # Make cluster a factor and set the levels appropriately
 metadata <- metadata %>%
@@ -91,13 +91,13 @@ resultsNames(deseq_object)
 # generate results table for A vs ctl
 # Treatment_TDM1_vs_Vehicle_results <- results(deseq_object, name="Treatment_TDM1_vs_Vehicle")
 # Another way:
-Vehicle_vs_TDM1_results <- results(deseq_object, c("Treatment", "Vehicle", "TDM1"))
+TDM1_vs_Vehicle_results <- results(deseq_object, contrast = c("Treatment", "TDM1", "Vehicle"))
 # TDM1_vs_Vehicle_results <- lfcShrink(deseq_object, 
 #                                                coef = "Treatment_TDM1_vs_Vehicle", 
 #                                                type = 'apeglm', 
 #                                                res = TDM1_vs_Vehicle_results)
 # Sort and filter DESeq2 results table and convert to dataframe
-Vehicle_vs_TDM1_df <- Vehicle_vs_TDM1_results %>%
+TDM1_vs_Vehicle_df <- TDM1_vs_Vehicle_results %>%
   # make into data.frame
   as.data.frame() %>%
   # the gene names are row names -- let's make them a column for easy display
@@ -106,20 +106,20 @@ Vehicle_vs_TDM1_df <- Vehicle_vs_TDM1_results %>%
   dplyr::arrange(dplyr::desc(log2FoldChange))
 # Save results as CSV
 readr::write_csv(
-  TDM1_df,
+  TDM1_vs_Vehicle_df,
   file.path(
     results_dir,
-    "Vehicle_vs_TDM1_DEG.csv"
+    "TDM1_vs_Vehicle_DEG.csv"
   )
 )
 
-Vehicle_vs_TAK_results <- results(deseq_object, c("Treatment", "Vehicle", "TAK"))
-# Vehicle_vs_TAK_results <- lfcShrink(deseq_object, 
+TAK_vs_Vehicle_results <- results(deseq_object, c("Treatment", "TAK", "Vehicle"))
+# TAK_vs_Vehicle_results <- lfcShrink(deseq_object, 
 #                                                coef = "Treatment_TAK_vs_Vehicle", 
 #                                                type = 'apeglm', 
-#                                                res = Vehicle_vs_TAK_results)
+#                                                res = TAK_vs_Vehicle_results)
 # Sort and filter DESeq2 results table and convert to dataframe
-Vehicle_vs_TAK_df <- Vehicle_vs_TAK_results %>%
+TAK_vs_Vehicle_df <- TAK_vs_Vehicle_results %>%
   # make into data.frame
   as.data.frame() %>%
   # the gene names are row names -- let's make them a column for easy display
@@ -128,20 +128,20 @@ Vehicle_vs_TAK_df <- Vehicle_vs_TAK_results %>%
   dplyr::arrange(dplyr::desc(log2FoldChange))
 # Save results as CSV
 readr::write_csv(
-  Vehicle_vs_TAK_df,
+  TAK_vs_Vehicle_df,
   file.path(
     results_dir,
-    "Vehicle_vs_TAK_DEG.csv"
+    "TAK_vs_Vehicle_DEG.csv"
   )
 )
 
-Vehicle_vs_Combo_results <- results(deseq_object, c("Treatment", "Vehicle", "Combo"))
+Combo_vs_Vehicle_results <- results(deseq_object, c("Treatment", "Combo", "Vehicle"))
 # Combo_vs_Vehicle_results <- lfcShrink(deseq_object, 
 #                                                coef = "Treatment_Combo_vs_Vehicle", 
 #                                                type = 'apeglm', 
 #                                                res = Combo_vs_Vehicle_results)
 # Sort and filter DESeq2 results table and convert to dataframe
-Vehicle_vs_Combo_df <- Vehicle_vs_Combo_results %>%
+Combo_vs_Vehicle_df <- Combo_vs_Vehicle_results %>%
   # make into data.frame
   as.data.frame() %>%
   # the gene names are row names -- let's make them a column for easy display
@@ -150,19 +150,19 @@ Vehicle_vs_Combo_df <- Vehicle_vs_Combo_results %>%
   dplyr::arrange(dplyr::desc(log2FoldChange))
 # Save results as CSV
 readr::write_csv(
-  Vehicle_vs_Combo_df,
+  Combo_vs_Vehicle_df,
   file.path(
     results_dir,
-    "Vehicle_vs_Combo_DEG.csv"
+    "Combo_vs_Vehicle_DEG.csv"
   )
 )
 
-Vehicle_vs_Resistance_results <- results(deseq_object, c("Treatment", "Vehicle", "Resistance"))
-# Vehicle_vs_Resistance_results <- lfcShrink(deseq_object, 
+Resistance_vs_Vehicle_results <- results(deseq_object, c("Treatment", "Resistance", "Vehicle"))
+# Resistance_vs_Vehicle_results <- lfcShrink(deseq_object, 
 #                                                coef = "Treatment_Resistance_vs_Vehicle", 
 #                                                type = 'apeglm', 
 #                                                res = Resistance_vs_Vehicle_results)
-Vehicle_vs_Resistance_df <- Vehicle_vs_Resistance_results %>%
+Resistance_vs_Vehicle_df <- Resistance_vs_Vehicle_results %>%
   # make into data.frame
   as.data.frame() %>%
   # the gene names are row names -- let's make them a column for easy display
@@ -171,10 +171,10 @@ Vehicle_vs_Resistance_df <- Vehicle_vs_Resistance_results %>%
   dplyr::arrange(dplyr::desc(log2FoldChange))
 # Save results as CSV
 readr::write_csv(
-  Vehicle_vs_Resistance_df,
+  Resistance_vs_Vehicle_df,
   file.path(
     results_dir,
-    "Vehicle_vs_Resistance_DEG.csv"
+    "Resistance_vs_Vehicle_DEG.csv"
   )
 )
 
@@ -182,9 +182,9 @@ readr::write_csv(
 #########################################################################################
 
 Combo_vs_Resistance_results <- results(deseq_object, c("Treatment", "Combo", "Resistance"))
-# Treatment_TDM1_vs_Vehicle_results <- lfcShrink(deseq_object, 
-#                                                coef = "Treatment_Resistance_vs_Combo", 
-#                                                type = 'apeglm', 
+# Treatment_TDM1_vs_Vehicle_results <- lfcShrink(deseq_object,
+#                                                coef = "Treatment_Resistance_vs_Combo",
+#                                                type = 'apeglm',
 #                                                res = Treatment_Resistance_vs_Combo_results)
 
 # Sort and filter DESeq2 results table and convert to dataframe
@@ -204,10 +204,10 @@ readr::write_csv(
   )
 )
 
-TAK_vs_Resistance_results <- results(deseq_object, c("Treatment", "TAK", "Resistance"))
+Resistance_vs_TAK_results <- results(deseq_object, c("Treatment", "Resistance", "TAK"))
 
 # Sort and filter DESeq2 results table and convert to dataframe
-TAK_vs_Resistance_df <- TAK_vs_Resistance_results %>%
+Resistance_vs_TAK_df <- Resistance_vs_TAK_results %>%
   # make into data.frame
   as.data.frame() %>%
   # the gene names are row names -- let's make them a column for easy display
@@ -216,17 +216,17 @@ TAK_vs_Resistance_df <- TAK_vs_Resistance_results %>%
   dplyr::arrange(dplyr::desc(log2FoldChange))
 # Save results as CSV
 readr::write_csv(
-  TAK_vs_Resistance_df,
+  Resistance_vs_TAK_df,
   file.path(
     results_dir,
-    "TAK_vs_Resistance_DEG.csv"
+    "Resistance_vs_TAK_DEG.csv"
   )
 )
 
-TDM1_vs_Resistance_results <- results(deseq_object, c("Treatment", "TDM1", "Resistance"))
+Resistance_vs_TDM1_results <- results(deseq_object, c("Treatment", "Resistance", "TDM1"))
 
 # Sort and filter DESeq2 results table and convert to dataframe
-TDM1_vs_Resistance_df <- TDM1_vs_Resistance_results %>%
+Resistance_vs_TDM1_df <- Resistance_vs_TDM1_results %>%
   # make into data.frame
   as.data.frame() %>%
   # the gene names are row names -- let's make them a column for easy display
@@ -235,75 +235,18 @@ TDM1_vs_Resistance_df <- TDM1_vs_Resistance_results %>%
   dplyr::arrange(dplyr::desc(log2FoldChange))
 # Save results as CSV
 readr::write_csv(
-  TDM1_vs_Resistance_df,
+  Resistance_vs_TDM1_df,
   file.path(
     results_dir,
-    "TDM1_vs_Resistance_DEG.csv"
-  )
-)
-
-Vehicle_vs_TAK_results <- results(deseq_object, c("Treatment", "Vehicle", "TAK"))
-
-# Sort and filter DESeq2 results table and convert to dataframe
-Vehicle_vs_TAK_df <- Vehicle_vs_TAK_results %>%
-  # make into data.frame
-  as.data.frame() %>%
-  # the gene names are row names -- let's make them a column for easy display
-  tibble::rownames_to_column("Gene") %>%
-  # sort by statistic -- the highest values will be genes with higher expression
-  dplyr::arrange(dplyr::desc(log2FoldChange))
-# Save results as CSV
-readr::write_csv(
-  Vehicle_vs_TAK_df,
-  file.path(
-    results_dir,
-    "Vehicle_vs_TAK_DEG.csv"
-  )
-)
-
-Vehicle_vs_TDM1_results <- results(deseq_object, c("Treatment", "Vehicle", "TDM1"))
-
-# Sort and filter DESeq2 results table and convert to dataframe
-Vehicle_vs_TDM1_df <- Vehicle_vs_TDM1_results %>%
-  # make into data.frame
-  as.data.frame() %>%
-  # the gene names are row names -- let's make them a column for easy display
-  tibble::rownames_to_column("Gene") %>%
-  # sort by statistic -- the highest values will be genes with higher expression
-  dplyr::arrange(dplyr::desc(log2FoldChange))
-# Save results as CSV
-readr::write_csv(
-  Vehicle_vs_TDM1_df,
-  file.path(
-    results_dir,
-    "Vehicle_vs_TDM1_DEG.csv"
-  )
-)
-
-Vehicle_vs_Combo_results <- results(deseq_object, c("Treatment", "Vehicle", "Combo"))
-
-# Sort and filter DESeq2 results table and convert to dataframe
-Vehicle_vs_Combo_df <- Vehicle_vs_Combo_results %>%
-  # make into data.frame
-  as.data.frame() %>%
-  # the gene names are row names -- let's make them a column for easy display
-  tibble::rownames_to_column("Gene") %>%
-  # sort by statistic -- the highest values will be genes with higher expression
-  dplyr::arrange(dplyr::desc(log2FoldChange))
-# Save results as CSV
-readr::write_csv(
-  Vehicle_vs_Combo_df,
-  file.path(
-    results_dir,
-    "Vehicle_vs_Combo_DEG.csv"
+    "Resistance_vs_TDM1_DEG.csv"
   )
 )
 
 
-Vehicle_vs_Resistance_results <- results(deseq_object, c("Treatment", "Vehicle", "Resistance"))
+Combo_vs_TDM1_results <- results(deseq_object, c("Treatment", "Combo", "TDM1"))
 
 # Sort and filter DESeq2 results table and convert to dataframe
-Vehicle_vs_Resistance_df <- Vehicle_vs_Resistance_results %>%
+Combo_vs_TDM1_df <- Combo_vs_TDM1_results %>%
   # make into data.frame
   as.data.frame() %>%
   # the gene names are row names -- let's make them a column for easy display
@@ -312,17 +255,17 @@ Vehicle_vs_Resistance_df <- Vehicle_vs_Resistance_results %>%
   dplyr::arrange(dplyr::desc(log2FoldChange))
 # Save results as CSV
 readr::write_csv(
-  Vehicle_vs_Resistance_df,
+  Combo_vs_TDM1_df,
   file.path(
     results_dir,
-    "Vehicle_vs_Resistance_DEG.csv"
+    "Combo_vs_TDM1_DEG.csv"
   )
 )
 
-TDM1_vs_Combo_results <- results(deseq_object, c("Treatment", "TDM1", "Combo"))
+Combo_vs_TAK_results <- results(deseq_object, c("Treatment", "Combo", "TAK"))
 
 # Sort and filter DESeq2 results table and convert to dataframe
-TDM1_vs_Combo_df <- TDM1_vs_Combo_results %>%
+Combo_vs_TAK_df <- Combo_vs_TAK_results %>%
   # make into data.frame
   as.data.frame() %>%
   # the gene names are row names -- let's make them a column for easy display
@@ -331,29 +274,10 @@ TDM1_vs_Combo_df <- TDM1_vs_Combo_results %>%
   dplyr::arrange(dplyr::desc(log2FoldChange))
 # Save results as CSV
 readr::write_csv(
-  TDM1_vs_Combo_df,
+  Combo_vs_TAK_df,
   file.path(
     results_dir,
-    "TDM1_vs_Combo_DEG.csv"
-  )
-)
-
-TAK_vs_Combo_results <- results(deseq_object, c("Treatment", "TAK", "Combo"))
-
-# Sort and filter DESeq2 results table and convert to dataframe
-TAK_vs_Combo_df <- TAK_vs_Combo_results %>%
-  # make into data.frame
-  as.data.frame() %>%
-  # the gene names are row names -- let's make them a column for easy display
-  tibble::rownames_to_column("Gene") %>%
-  # sort by statistic -- the highest values will be genes with higher expression
-  dplyr::arrange(dplyr::desc(log2FoldChange))
-# Save results as CSV
-readr::write_csv(
-  TAK_vs_Combo_df,
-  file.path(
-    results_dir,
-    "TAK_vs_Combo_DEG.csv"
+    "Combo_vs_TAK_DEG.csv"
   )
 )
 
@@ -376,8 +300,8 @@ ggplot2::ggsave(
 )
 
 TAK_vs_Vehicle_volcano_plot <- EnhancedVolcano::EnhancedVolcano(
-  TAK_df,
-  lab = TAK_df$Gene,
+  TAK_vs_Vehicle_df,
+  lab = TAK_vs_Vehicle_df$Gene,
   x = "log2FoldChange",
   y = "padj",
   pCutoff = 0.01 # Loosen the cutoff since we supplied corrected p-values
@@ -392,8 +316,8 @@ ggplot2::ggsave(
 )
 
 Combo_vs_Vehicle_volcano_plot <- EnhancedVolcano::EnhancedVolcano(
-  Combo_df,
-  lab = Combo_df$Gene,
+  Combo_vs_Vehicle_df,
+  lab = Combo_vs_Vehicle_df$Gene,
   x = "log2FoldChange",
   y = "padj",
   pCutoff = 0.01 # Loosen the cutoff since we supplied corrected p-values
@@ -408,8 +332,8 @@ ggplot2::ggsave(
 )
 
 Resistance_vs_Vehicle_volcano_plot <- EnhancedVolcano::EnhancedVolcano(
-  Resistance_df,
-  lab = Resistance_df$Gene,
+  Resistance_vs_Vehicle_df,
+  lab = Resistance_vs_Vehicle_df$Gene,
   x = "log2FoldChange",
   y = "padj",
   pCutoff = 0.01 # Loosen the cutoff since we supplied corrected p-values
@@ -423,28 +347,28 @@ ggplot2::ggsave(
   scale=1.5
 )
 
-Resistance_vs_Combo_volcano_plot <- EnhancedVolcano::EnhancedVolcano(
-  Resistance_df,
-  lab = Resistance_vs_Combo_df$Gene,
+Combo_vs_Resistance_volcano_plot <- EnhancedVolcano::EnhancedVolcano(
+  Combo_vs_Resistance_df,
+  lab = Combo_vs_Resistance_df$Gene,
   x = "log2FoldChange",
   y = "padj",
-  pCutoff = 0.01 # Loosen the cutoff since we supplied corrected p-values
+  pCutoff = 0.05 # Loosen the cutoff since we supplied corrected p-values
 )
 # Print out plot here
-Resistance_vs_Combo_volcano_plot
+Combo_vs_Resistance_volcano_plot
 # Save volcano plot
 ggplot2::ggsave(
-  plot = Resistance_vs_Combo_volcano_plot,
-  file.path(plots_dir, "Resistance_vs_Combo_volcano_plot.png"),
+  plot = Combo_vs_Resistance_volcano_plot,
+  file.path(plots_dir, "Combo_vs_Resistance_volcano_plot.png"),
   scale=1.5
 )
 
 Resistance_vs_TAK_volcano_plot <- EnhancedVolcano::EnhancedVolcano(
-  Resistance_df,
+  Resistance_vs_TAK_df,
   lab = Resistance_vs_TAK_df$Gene,
   x = "log2FoldChange",
   y = "padj",
-  pCutoff = 0.01 # Loosen the cutoff since we supplied corrected p-values
+  pCutoff = 0.05 # Loosen the cutoff since we supplied corrected p-values
 )
 # Print out plot here
 Resistance_vs_TAK_volcano_plot
@@ -456,7 +380,7 @@ ggplot2::ggsave(
 )
 
 Resistance_vs_TDM1_volcano_plot <- EnhancedVolcano::EnhancedVolcano(
-  Resistance_df,
+  Resistance_vs_TDM1_df,
   lab = Resistance_vs_TDM1_df$Gene,
   x = "log2FoldChange",
   y = "padj",
